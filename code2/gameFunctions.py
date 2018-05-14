@@ -24,6 +24,7 @@ def start(player, enemy):
     print("On your quest you will face monsters and traps, but also some awesome loot!")
     print("You can type move to go to the next room, items to see your inventory or use a consumable item"
           "or inventory to equip weapons")
+    print("When asked questions, type Yes or No for that response")
     a = input("Are you ready to play?")
     if a == "Yes":
         game(player, enemy)
@@ -35,10 +36,25 @@ def start(player, enemy):
 def game(player, enemy):
     print("")
     choice = input("What do you want to do?")
-    if choice == "attack":
-        attack(player, enemy)
+    if choice == "move forward":
+        event = random.randint(1,2)
+        if event == 1:
+            newEnemy(player, enemy)
+        if event == 2:
+            fortnite(player,enemy)
     if choice == "end game":
         sys.exit()
+    checkLevel(player, enemy)
+    game(player,enemy)
+
+def battle(player, enemy):
+    print("")
+    action = input("How do you wish to fight")
+    if action == "attack":
+        attack(player, enemy)
+    battle(player, enemy)
+
+
 
 def attack(player, enemy):
     enemy.health = enemy.health - (player.attack/enemy.armour)
@@ -47,13 +63,16 @@ def attack(player, enemy):
     if enemy.health > 0:
         enemyAttack(player, enemy)
     if enemy.health <= 0:
-        newEnemy(player, enemy)
+        print("You killed the enemy and earned 10 exp!")
+        player.exp += 10
+        game(player, enemy)
 
 def enemyAttack(player, enemy):
     player.health = player.health - (enemy.attack/player.armour)
     print("")
     print("The enemy attacked you!")
     print("Your health is: " + str(round(player.health)))
+    battle(player,enemy)
 
 def newEnemy(player, enemy):
     enemyNumber = random.randint(1,2)
@@ -69,6 +88,41 @@ def newEnemy(player, enemy):
         enemy.attack = 2
         enemy.armour = 1.5
         enemy.magicDamage = 0
+    battle(player,enemy)
+
+def fortnite(player, enemy):
+    print("You find yourself at a strange portal")
+    playFortnite = input("Do you wish to enter?")
+    if playFortnite == "Yes":
+        print("When you enter it you find yourself on a strange flying bus")
+        print("You quickly realize that you are in a Fortnite game!")
+        print("Sadly you realize you suck at Fornite, chances are you will die!")
+        fortniteResult = random.randint(1,100)
+        if fortniteResult == 100:
+            print("")
+            print("You somehow managed to win!")
+            game(player, enemy)
+            player.exp += 1000
+        if fortniteResult < 100:
+            print("")
+            print("You lost the game and died, sorry")
+            sys.exit()
+    if playFortnite == "No":
+        print("You chose not to play!")
+
+def checkLevel(player, enemy):
+    if player.exp >= player.expr:
+        player.level += 1
+        print("You leveled up to level " + str(player.level))
+        player.exp = player.exp - player.expr
+        player.expr = player.expr + player.level^2
+        checkLevel(player, enemy)
+    if player.exp < player.expr:
+        game(player, enemy)
+
+
+
+
 
 
 

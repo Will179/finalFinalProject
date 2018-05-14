@@ -16,6 +16,9 @@ class Player():
         self.attack = 10
         self.armour = 5
         self.magicDamage = 15
+        self.exp = 0
+        self.expr = 100
+        self.level = 1
     def blitme(self):
         """Draw the player at its current location."""
         self.screen.blit(self.image, self.rect)
