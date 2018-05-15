@@ -14,12 +14,12 @@ def run_game():
     screen = pygame.display.set_mode((ai_settings.screen_width, ai_settings.screen_height))
     pygame.display.set_caption("Dungeon Fighter")
     #create a player
-    player = Player(screen)
-    enemy = Pikachu(screen)
+    player = Player(ai_settings, screen)
     # Start the main loop for the game.
     while True:
-        gf.start(player, enemy)
-    #gf.check_events()
-    #gf.update_screen(ai_settings, screen, player, enemy)
+        #gf.start(player, enemy)
+        gf.check_events(player)
+        player.update()
+        gf.update_screen(ai_settings, screen, player)
 run_game()
 
