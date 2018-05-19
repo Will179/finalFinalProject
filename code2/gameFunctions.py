@@ -41,15 +41,17 @@ def fire_bullet(ai_settings, screen, player, bullets):
         new_bullet = Bullet(ai_settings, screen, player)
         bullets.add(new_bullet)
 
-
-def update_bullets(bullets):
-     """Update position of bullets and get rid of old bullets."""
-     # Update bullet positions.
-     bullets.update()
-     # Get rid of bullets that have disappeared. u
-     for bullet in bullets.copy():
-         if bullet.rect.bottom <= 0:
-             bullets.remove(bullet)
+def update_bullets(aliens, bullets):
+    """"Update position of bullets and get rid of old bullets."""
+    # Update bullet positions.
+    bullets.update()
+    # Get rid of bullets that have disappeared. u
+    for bullet in bullets.copy():
+        if bullet.rect.bottom <= 0:
+            bullets.remove(bullet)
+    # Check for any bullets that have hit aliens.
+    #  If so, get rid of the bullet and the alien.
+    collisions = pygame.sprite.groupcollide(bullets, aliens, True, True)
 
 
 def update_screen(ai_settings, screen, player, aliens, bullets):
