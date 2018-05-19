@@ -20,6 +20,7 @@ from pygame.sprite import Group
 from alien import Alien
 from game_stats import GameStats
 from button import Button
+from scoreboard import Scoreboard
 
 def run_game():
     # Initialize pygame, settings, and screen object.
@@ -31,8 +32,9 @@ def run_game():
     # Make the Play button.
     play_button = Button(ai_settings, screen, "Play")
 
-    # Create an instance to store game statistics.
+    # Create an instance to store game statistics and create a scoreboard
     stats = GameStats(ai_settings)
+    sb = Scoreboard(ai_settings, screen, stats)
 
     #create a player
     player = Player(ai_settings, screen)
@@ -50,9 +52,10 @@ def run_game():
         gf.check_events(ai_settings, screen, stats, play_button, player, aliens, bullets)
         if stats.game_active:
             player.update()
-            gf.update_bullets(ai_settings, screen, player, aliens, bullets)
+            gf.update_bullets(ai_settings, screen, stats, sb, player, aliens, bullets)
             gf.update_aliens(ai_settings, stats, screen, player, aliens, bullets)
-        gf.update_screen(ai_settings, screen, stats, player, aliens, bullets, play_button)
+
+        gf.update_screen(ai_settings, screen, stats, sb, player, aliens, bullets, play_button)
 
         # Get rid of bullets that have disappeared. u
         for bullet in bullets.copy():

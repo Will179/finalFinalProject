@@ -65,7 +65,7 @@ def fire_bullet(ai_settings, screen, player, bullets):
         new_bullet = Bullet(ai_settings, screen, player)
         bullets.add(new_bullet)
 
-def update_bullets(ai_settings, screen, player, aliens, bullets):
+def update_bullets(ai_settings, screen, stats, sb, player, aliens, bullets):
     """"Update position of bullets and get rid of old bullets."""
     # Update bullet positions.
     bullets.update()
@@ -75,12 +75,18 @@ def update_bullets(ai_settings, screen, player, aliens, bullets):
             bullets.remove(bullet)
     # Check for any bullets that have hit aliens.
     #  If so, get rid of the bullet and the alien.
-    check_bullet_alien_collisions(ai_settings, screen, player, aliens, bullets)
+    check_bullet_alien_collisions(ai_settings, screen, stats, sb, player, aliens, bullets)
 
-def check_bullet_alien_collisions(ai_settings, screen, player, aliens, bullets):
+def check_bullet_alien_collisions(ai_settings, screen, stats, sb, player, aliens, bullets):
     """Respond to bullet-alien collisions."""
     # Remove any bullets and aliens that have collided.
     collisions = pygame.sprite.groupcollide(bullets, aliens, True, True)
+
+    if collisions:
+        for aliens in collisions.values():
+            stats.score += ai_settings.alien_points * len(aliens)
+            print("Score increased")
+            print(stats.score)
 
     if len(aliens) == 0:
         # Destroy existing bullets, speed up game, and create new fleet.
@@ -89,7 +95,7 @@ def check_bullet_alien_collisions(ai_settings, screen, player, aliens, bullets):
         create_fleet(ai_settings, screen, player, aliens)
 
 
-def update_screen(ai_settings, screen, stats, player, aliens, bullets, play_button):
+def update_screen(ai_settings, screen, stats, sb, player, aliens, bullets, play_button):
     """Update images on the screen and flip to the new screen."""
     # Redraw the screen during each pass through the loop.
     screen.fill(ai_settings.bg_color)
@@ -99,6 +105,9 @@ def update_screen(ai_settings, screen, stats, player, aliens, bullets, play_butt
         # print("Bullet Drawn")
     player.blitme()
     aliens.draw(screen)
+
+    # Draw the score information.
+    sb.show_score()
 
     # Draw the play button if the game is inactive.
     if not stats.game_active:

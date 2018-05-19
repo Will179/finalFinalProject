@@ -29,6 +29,8 @@ class Settings():
         self.alien_speed_factor = 1
         # fleet_direction of 1 represents right; -1 represents left.
         self.fleet_direction = 1
+        # Scoring
+        self.alien_points = 50
 
     def initialize_dynamic_settings(self):
         """Initialize settings that change throughout the game."""
