@@ -22,9 +22,13 @@ class Settings():
         self.fleet_direction = 1
 
         # How quickly the game speeds up
-        self.speedup_scale = 1.1
+        self.speedup_scale = 1.5
 
-        self.initialize_dynamic_settings()
+        self.player_speed_factor = 1.5
+        self.bullet_speed_factor = 2
+        self.alien_speed_factor = 1
+        # fleet_direction of 1 represents right; -1 represents left.
+        self.fleet_direction = 1
 
     def initialize_dynamic_settings(self):
         """Initialize settings that change throughout the game."""
@@ -39,4 +43,5 @@ class Settings():
         self.player_speed_factor *= self.speedup_scale
         self.bullet_speed_factor *= self.speedup_scale
         self.alien_speed_factor *= self.speedup_scale
+        print("Speed variables increased")
 
