@@ -48,6 +48,7 @@ def run_game():
 
     # Start the main loop for the game.
     while True:
+        sb = Scoreboard(ai_settings, screen, stats)
         #gf.start(player, enemy)
         gf.check_events(ai_settings, screen, stats, play_button, player, aliens, bullets)
         if stats.game_active:
