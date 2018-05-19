@@ -2,6 +2,7 @@
 Final Project Take 2:
 Restarted in final week, went off alien invasion template from textbook
 ran into problem generating bullets, unable to fix the issue.
+Since fixed bullets and made more progress on the Alien Invasion project
 
 
 """
@@ -18,6 +19,7 @@ import gameFunctions as gf
 from pygame.sprite import Group
 from alien import Alien
 from game_stats import GameStats
+from button import Button
 
 def run_game():
     # Initialize pygame, settings, and screen object.
@@ -25,6 +27,9 @@ def run_game():
     ai_settings = Settings()
     screen = pygame.display.set_mode((ai_settings.screen_width, ai_settings.screen_height))
     pygame.display.set_caption("Dungeon Fighter")
+
+    # Make the Play button.
+    play_button = Button(ai_settings, screen, "Play")
 
     # Create an instance to store game statistics.
     stats = GameStats(ai_settings)
@@ -42,12 +47,12 @@ def run_game():
     # Start the main loop for the game.
     while True:
         #gf.start(player, enemy)
-        gf.check_events(ai_settings, screen, player, bullets)
+        gf.check_events(ai_settings, screen, stats, play_button, player, aliens, bullets)
         if stats.game_active:
             player.update()
             gf.update_bullets(ai_settings, screen, player, aliens, bullets)
             gf.update_aliens(ai_settings, stats, screen, player, aliens, bullets)
-        gf.update_screen(ai_settings, screen, player, aliens, bullets)
+        gf.update_screen(ai_settings, screen, stats, player, aliens, bullets, play_button)
 
         # Get rid of bullets that have disappeared. u
         for bullet in bullets.copy():
